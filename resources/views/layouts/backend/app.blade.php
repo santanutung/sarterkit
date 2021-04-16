@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/nestable2@1.6.0/jquery.nestable.min.css">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
      <link href="{{ asset('css/iziToast.css') }}" rel="stylesheet">
     <link href="{{ asset('main.css') }}" rel="stylesheet">

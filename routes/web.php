@@ -2,9 +2,11 @@
 
 
 use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Backend\DashbordController;
+
 
 
 
@@ -19,12 +21,17 @@ use App\Http\Controllers\Backend\DashbordController;
 |
 */
 
+Route::get('/test', function () {
+    return menu('test');
+});
+
+
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::view('/dashbord','backend.dasbord');
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('{slug}',[PageController::class, 'index'])->name('pages');
 
