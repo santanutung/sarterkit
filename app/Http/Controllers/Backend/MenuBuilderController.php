@@ -25,12 +25,10 @@ class MenuBuilderController extends Controller
     {
 
         $menuItemOrder = json_decode($request->get('order'));
-       $this->orderMenu($menuItemOrder,null);
-
-
+        $this->orderMenu($menuItemOrder, null);
     }
 
-    private function orderMenu( array $menuItem, $parentId)
+    private function orderMenu(array $menuItem, $parentId)
     {
         foreach ($menuItem as $key => $Item) {
             MenuItem::findOrFail($Item->id)->update([
@@ -79,7 +77,7 @@ class MenuBuilderController extends Controller
     {
         Gate::authorize('app.menus.edit');
         $menu = Menu::findOrFail($menuId);
-        $menuItem = $menu->menuItems()->findOrFail($itemId);
+        $menuItem = MenuItem::where('menu_id', $menu->id)->findOrFail($itemId);
         return view('backend.menu.item.form', compact('menu', 'menuItem'));
     }
 
@@ -96,14 +94,16 @@ class MenuBuilderController extends Controller
         ]);
 
         $menu = Menu::findOrFail($menuId);
-        $menu->menuItems()->findOrFail($itemId)->update([
-            'type' => $request->type,
-            'title' => $request->title,
-            'divider_title' => $request->divider_title,
-            'url' => $request->url,
-            'target' => $request->target,
-            'icon_class' => $request->icon_class
-        ]);
+        MenuItem::where('menu_id', $menu->id)
+            ->findOrFail($itemId)
+            ->update([
+                'type' => $request->type,
+                'title' => $request->title,
+                'divider_title' => $request->divider_title,
+                'url' => $request->url,
+                'target' => $request->target,
+                'icon_class' => $request->icon_class
+            ]);
         notify()->success('Menu Item Successfully Updated.', 'Updated');
         return redirect()->route('app.menus.builder', $menu->id);
     }
@@ -112,8 +112,8 @@ class MenuBuilderController extends Controller
     {
 
         Gate::authorize('app.menus.destroy');
-        Menu::findOrFail($menuId)
-            ->menuItems()
+        $menu = Menu::findOrFail($menuId);
+        MenuItem::where('menu_id', $menu->id)
             ->findOrFail($itemId)
             ->delete();
         notify()->success('Menu Item Successfully Deleted.', 'Deleted');

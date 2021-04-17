@@ -29,7 +29,7 @@ use App\Http\Controllers\Backend\MenuBuilderController;
 
 
 
-Route::get('/dashbord', DashbordController::class)->name('dashbord');
+Route::get('/dashboard', DashbordController::class)->name('dashbord');
 Route::resource('roles', RoleController::class);
 Route::resource('users', UserController::class);
 Route::resource('pages', PageController::class);
