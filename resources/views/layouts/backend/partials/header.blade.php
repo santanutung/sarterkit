@@ -1,6 +1,11 @@
 <div class="app-header header-shadow bg-asteroid header-text-light">
     <div class="app-header__logo">
-        <div class="logo-src"></div>
+        {{-- <div class="logo-src"></div> --}}
+
+     <div class='navbar-brand text-white'>
+        {{ setting('site_title') }}
+    </div>
+
         <div class="header__pane ml-auto">
             <div>
                 <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"

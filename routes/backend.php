@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\ProfileController;
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\MenuController;
 use App\Http\Controllers\Backend\MenuBuilderController;
+use App\Http\Controllers\Backend\SettingController;
 
 
 
@@ -66,3 +67,18 @@ Route::group(['as' => 'menus.', 'prefix' => 'menus/{id}/'], function () {
       Route::delete('/{itemId}/destroy', [MenuBuilderController::class, 'itemDestroy'])->name('destroy');
    });
 });
+
+ Route::group(['as' => 'settings.', 'prefix' => 'settings'], function () {
+   Route::get('/general', [SettingController::class, 'index'])->name('general');
+   Route::patch('/general', [SettingController::class,'update'])->name('update');
+
+   Route::get('/appearance', [SettingController::class, 'appearance'])->name('appearance.index');
+   Route::patch('/appearance', [SettingController::class, 'updateAppearance'])->name('appearance.update');
+
+   Route::get('/mail', [SettingController::class, 'mail'])->name('mail.index');
+   Route::patch('/mail', [SettingController::class, 'updateMailSettings'])->name('mail.update');
+
+   Route::get('socialite', [SettingController::class, 'socialite'])->name('socialite.index');
+   Route::patch('socialite', [SettingController::class, 'updateSocialiteSettings'])->name('socialite.update');
+
+ });
