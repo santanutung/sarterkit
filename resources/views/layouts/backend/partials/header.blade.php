@@ -1,6 +1,11 @@
 <div class="app-header header-shadow bg-asteroid header-text-light">
     <div class="app-header__logo">
-        <div class="logo-src"></div>
+        {{-- <div class="logo-src"></div> --}}
+
+        <div class='navbar-brand text-white'>
+            {{ setting('site_title') }}
+        </div>
+
         <div class="header__pane ml-auto">
             <div>
                 <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"
@@ -42,7 +47,7 @@
             <ul class="header-menu nav">
 
                 <li class="dropdown nav-item">
-                    <a href="javascript:void(0);" class="nav-link">
+                    <a href="{{ route('home') }}" class="nav-link">
                         <i class="nav-link-icon fa fa-cog"></i>
                         visit Site
                     </a>
@@ -56,20 +61,34 @@
                         <div class="widget-content-left">
                             <div class="btn-group">
                                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
+
+                                    <img width="42" class="rounded-circle"
+                                        src="{{ Auth::user()->getFirstMediaUrl('avatar') ? Auth::user()->getFirstMediaUrl('avatar') : config('app.placeholder') . '160' }}"
+                                        alt="">
+
                                     <img width="42" class="rounded-circle" src="{{ Auth::user()->getFirstMediaUrl('avatar')?Auth::user()->getFirstMediaUrl('avatar'): config('app.placeholder') . '160'}}" alt="">
+
                                     <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                 </a>
                                 <div tabindex="-1" role="menu" aria-hidden="true"
                                     class="dropdown-menu dropdown-menu-right">
+
+                                    <a tabindex="0" class="dropdown-item"
+                                        href="{{ route('app.profile.index') }}">Profile</a>
+                                    <a tabindex="0" class="dropdown-item"
+                                        href="{{ route('app.profile.password.index') }}">Change Password</a>
+                                    <a tabindex="0" herf={{ route('app.settings.general') }} class="dropdown-item" href="">Settings</a>
+                                    
+
                                     <a tabindex="0" class="dropdown-item" href="{{ route('app.profile.index')  }}">Profile</a>
                                     <a tabindex="0" class="dropdown-item" href="{{ route('app.profile.password.index') }}">Change Password</a>
                                     <a tabindex="0" class="dropdown-item" href="">Settings</a>
+
                                     <div tabindex="-1" class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                    document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                         class="d-none">
                                         @csrf
@@ -82,7 +101,7 @@
                                 {{ Auth::user()->name }}
                             </div>
                             <div class="widget-subheading">
-                                {{  Auth::user()->role->name}}
+                                {{ Auth::user()->role->name }}
                             </div>
                         </div>
                         <div class="widget-content-right header-user-info ml-3">

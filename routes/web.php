@@ -1,10 +1,13 @@
 <?php
 
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Backend\DashbordController;
+
 
 
 
@@ -19,12 +22,24 @@ use App\Http\Controllers\Backend\DashbordController;
 |
 */
 
+Route::get('/test', function () {
+    return setting('test1');
+});
+
+
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::view('/dashbord','backend.dasbord');
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['as' => 'login.', 'prefix' => 'login', 'namespace' => 'Auth'], function () {
+    Route::get('/{provider}', [LoginController::class, 'redirectToProvider'])->name('provider');
+    Route::get('/{provider}/callback', [LoginController::class, 'handleProviderCallback'])->name('callback');
+});
+
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('{slug}',[PageController::class, 'index'])->name('pages');
 

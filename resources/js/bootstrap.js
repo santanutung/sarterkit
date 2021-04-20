@@ -10,6 +10,7 @@ try {
 
     window.$ = window.jQuery = require('jquery');
     window.Swal = require('sweetalert2')
+    require('nestable2')
     // require('bootstrap');
 } catch (e) {}
 
