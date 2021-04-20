@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
 
@@ -25,4 +26,9 @@ class Page extends Model implements HasMedia
     static function findBySlug ($slug){
        return  self::where('slug', $slug)->where('status', true)->firstOrFail();
     }
+
+
+class Page extends Model
+{
+    use HasFactory;
 }
