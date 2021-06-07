@@ -21,7 +21,6 @@ class AuthGates
     public function handle(Request $request, Closure $next)
     {
         $user=Auth::user();
-
         if ($user) {
             $permissions=Permission::all();
             foreach ($permissions as $key=>$permission){

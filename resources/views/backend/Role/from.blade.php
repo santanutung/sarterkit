@@ -1,10 +1,7 @@
 @extends('layouts.backend.app')
 @push('css')
-
 @endpush
-
 @section('content')
-
         <div class="app-page-title">
             <div class="page-title-wrapper">
                 <div class="page-title-heading">
@@ -12,10 +9,7 @@
                         <i class="pe-7s-check icon-gradient bg-mean-fruit">
                         </i>
                     </div>
-
                     <div>{{ isset($role) ? 'Edit' : 'Create New' }} Role</div>
-
-
                 </div>
                 <div class="page-title-actions">
                      <a href="{{ route('app.roles.index') }}" class="btn-shadow btn btn-danger">
@@ -24,11 +18,9 @@
                         </span>
                         Back to list
                     </a>
-
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
@@ -100,7 +92,6 @@
                                 </div>
                                 <p>No users</p>
                             @endforelse
-
                             <button type="submit" class="btn btn-primary">
                                 @isset($role)
                                     <i class="fas fa-arrow-circle-up"></i>
@@ -110,16 +101,11 @@
                                     <span>Create</span>
                                 @endisset
                             </button>
-
                         </form>
-
                     </div>
                 </div>
             </div>
         </div>
-
-
-
 @endsection
 
 
