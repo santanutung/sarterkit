@@ -1,7 +1,7 @@
 @extends('layouts.backend.app')
 
 @section('content')
-    <div class="app-main__inner">
+
         <div class="app-page-title">
             <div class="page-title-wrapper">
                 <div class="page-title-heading">
@@ -95,6 +95,6 @@
                 </div>
             </div>
         </div>
-    </div>
+
 
 @endsection

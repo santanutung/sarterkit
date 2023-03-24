@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
+<link rel="icon" href="Icon.png" type="{{ Storage::url(setting('site_favicon'))}}">
 
 
     <!-- Fonts -->
@@ -64,6 +64,10 @@
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
+                                    <a class="dropdown-item" href='{{ route('app.dashbord') }}'>
+                                        {{ __('Admin dashbord') }}
+                                    </a>
+
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
