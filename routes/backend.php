@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\DashbordController;
 use App\Http\Controllers\Backend\ProfileController;
+
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\MenuController;
 use App\Http\Controllers\Backend\MenuBuilderController;
 use App\Http\Controllers\Backend\SettingController;
-
 
 
 
@@ -48,10 +48,22 @@ Route::post('profile', [ProfileController::class, 'update'])->name('profile.upda
 Route::get('profile/password', [ProfileController::class, 'changePassword'])->name('profile.password.index');
 Route::post('profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
+
+//  profile
+Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+Route::post('profile', [ProfileController::class, 'update'])->name('profile.update');
+
+
+
+//  Update Password
+Route::get('profile/password', [ProfileController::class, 'changePassword'])->name('profile.password.index');
+Route::post('profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+
 //Route::group(['as' => 'app.', 'prefix' => 'app', 'namespace' => 'App\Http\Controllers\Backend','middleware'=>['auth']], function () {
 //    Route::get('/dashbord', 'DashbordController')->name('dashbord');
 //    Route::resource('roles', ' ');
 //});
+
 
 
 

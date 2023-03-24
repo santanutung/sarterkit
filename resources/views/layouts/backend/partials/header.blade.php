@@ -61,19 +61,29 @@
                         <div class="widget-content-left">
                             <div class="btn-group">
                                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
+
                                     <img width="42" class="rounded-circle"
                                         src="{{ Auth::user()->getFirstMediaUrl('avatar') ? Auth::user()->getFirstMediaUrl('avatar') : config('app.placeholder') . '160' }}"
                                         alt="">
+
+                                    <img width="42" class="rounded-circle" src="{{ Auth::user()->getFirstMediaUrl('avatar')?Auth::user()->getFirstMediaUrl('avatar'): config('app.placeholder') . '160'}}" alt="">
+
                                     <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                 </a>
                                 <div tabindex="-1" role="menu" aria-hidden="true"
                                     class="dropdown-menu dropdown-menu-right">
+
                                     <a tabindex="0" class="dropdown-item"
                                         href="{{ route('app.profile.index') }}">Profile</a>
                                     <a tabindex="0" class="dropdown-item"
                                         href="{{ route('app.profile.password.index') }}">Change Password</a>
                                     <a tabindex="0" herf={{ route('app.settings.general') }} class="dropdown-item" href="">Settings</a>
                                     
+
+                                    <a tabindex="0" class="dropdown-item" href="{{ route('app.profile.index')  }}">Profile</a>
+                                    <a tabindex="0" class="dropdown-item" href="{{ route('app.profile.password.index') }}">Change Password</a>
+                                    <a tabindex="0" class="dropdown-item" href="">Settings</a>
+
                                     <div tabindex="-1" class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                    document.getElementById('logout-form').submit();">
