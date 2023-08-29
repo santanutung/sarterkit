@@ -26,9 +26,5 @@ class Page extends Model implements HasMedia
     static function findBySlug ($slug){
        return  self::where('slug', $slug)->where('status', true)->firstOrFail();
     }
-
-
-class Page extends Model
-{
-    use HasFactory;
 }
+
