@@ -16,20 +16,26 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::updateOrCreate([
-           'role_id'=>  Role::where('slug','admin')->first()->id,
-            'name'=>'Admin',
-            'email'=>'admin@gmail.com',
-            'password'=>Hash::make('password'),
-            'deletable'=>false,
-            'status'=>true
-        ]);
-        User::updateOrCreate([
-            'role_id'=>Role::where('slug','user')->first()->id,
-              'name'=>'User',
-             'email'=>'user@gmail.com',
-             'password'=>Hash::make('password'),
-            'status' => false
-         ]);
+        User::updateOrCreate(
+            ['email' => 'admin@gmail.com'],
+            [
+                'role_id' =>  Role::where('slug', 'admin')->first()->id,
+                'name' => 'Admin',
+                'email' => 'admin@gmail.com',
+                'password' => Hash::make('password'),
+                'deletable' => false,
+                'status' => true
+            ]
+        );
+        User::updateOrCreate(
+            ['email' => 'user@gmail.com'],
+            [
+                'role_id' => Role::where('slug', 'user')->first()->id,
+                'name' => 'User',
+                'email' => 'user@gmail.com',
+                'password' => Hash::make('password'),
+                'status' => false
+            ]
+        );
     }
 }

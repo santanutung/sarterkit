@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
 
 class ProfileController extends Controller
 {
@@ -26,14 +27,32 @@ class ProfileController extends Controller
         ]);
 
         // Update user info
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
-        // upload images
-        if ($request->hasFile('avatar')) {
-            $user->addMedia($request->avatar)->toMediaCollection('avatar');
+ 
+
+        $img_path_name = null;
+        $avatar_image = $request->file('avatar');
+        if ($avatar_image) {
+            $isExists = File::exists($user->image);
+            if ($isExists) {
+                unlink($user->image);
+            }
+            // $original_name = $avatar_image->getClientOriginalName();
+            $name_generated =   time();
+            $extension = strtolower($avatar_image->getClientOriginalExtension());
+            $image_name = $name_generated . "." . $extension;
+            $upload_location = 'uploads/avatar/';
+            $img_path_name = $upload_location . $image_name;
+            $avatar_image->move(public_path($upload_location), $image_name);
+            $user->image = $img_path_name;
         }
+
+        
+        $user->email = $request->email;
+        $user->save();
+
+        // upload images
+
+       
         // return with success msg
         notify()->success('Profile Successfully Updated.', 'Updated');
         return back();
@@ -47,7 +66,6 @@ class ProfileController extends Controller
 
     public function updatePassword(Request $request)
     {
-
         $this->validate($request, [
             'password' => 'required |confirmed',
             'current_password' => 'required'
