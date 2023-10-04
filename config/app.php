@@ -56,6 +56,7 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
     'placeholder' => 'https://via.placeholder.com/',
+    'demo_profile' => 'images/profile-photo.png',
 
     /*
     |--------------------------------------------------------------------------

@@ -129,7 +129,7 @@
     </div>
     @php
     	// $shipping_address= DB::table('address_list')->where('user_id',$order->user_id)->first());
-    echo 'san';
-    // echo 'test';
+ 
+    
     @endphp
 @endsection

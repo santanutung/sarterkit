@@ -1,9 +1,13 @@
 <div class="app-header header-shadow bg-asteroid header-text-light">
     <div class="app-header__logo">
-        {{-- <div class="logo-src"></div> --}}
+        {{-- <div class="logo-src">
+            <a href="{{ route('home') }}" class="text-white" style="  text-decoration: none;">  {{ setting('site_title') }}</a>
+        </div> --}}
 
         <div class='navbar-brand text-white'>
-            {{ setting('site_title') }}
+            <a href="{{ route('home') }}" class="text-white" style="  text-decoration: none;">  {{ setting('site_title') }}</a>
+    
+     
         </div>
 
         <div class="header__pane ml-auto">
@@ -46,12 +50,7 @@
             </div> --}}
             <ul class="header-menu nav">
 
-                <li class="dropdown nav-item">
-                    <a href="{{ route('home') }}" class="nav-link">
-                        <i class="nav-link-icon fa fa-cog"></i>
-                        visit Site
-                    </a>
-                </li>
+                
             </ul>
         </div>
         <div class="app-header-right">
@@ -63,10 +62,10 @@
                                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
 
                                     <img width="42" class="rounded-circle"
-                                        src="{{ Auth::user()->getFirstMediaUrl('avatar') ? Auth::user()->getFirstMediaUrl('avatar') : config('app.placeholder') . '160' }}"
+                                        src="{{ Auth::user()->image ? url(Auth::user()->image) : url(config('app.demo_profile'))  }}"
                                         alt="">
 
-                                    <img width="42" class="rounded-circle" src="{{ Auth::user()->getFirstMediaUrl('avatar')?Auth::user()->getFirstMediaUrl('avatar'): config('app.placeholder') . '160'}}" alt="">
+                                    {{-- <img width="42" class="rounded-circle" src="{{ Auth::user()->getFirstMediaUrl('avatar')?Auth::user()->getFirstMediaUrl('avatar'): config('app.placeholder') . '160'}}" alt=""> --}}
 
                                     <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                 </a>
