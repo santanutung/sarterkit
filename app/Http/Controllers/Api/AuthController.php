@@ -56,7 +56,7 @@ class AuthController extends BaseController
                 $msg = $x->getMessages();
                 return $this->response(0, ["messages" => array("Error"), 'errors' => $msg]);
             }
-            
+
 
             $user = User::create([
                 'name' => $request->name,
@@ -66,8 +66,6 @@ class AuthController extends BaseController
                 // 'refer_id' => $refer_id,
 
             ]);
-
-       
 
             return $this->response(1, ["messages" => ['User Created Successfully.'], 'errors' => [], "tocken" => [$user->createToken("API")->plainTextToken]]);
         } catch (\Throwable $th) {
@@ -87,21 +85,30 @@ class AuthController extends BaseController
                     'password' => 'required'
                 ]
             );
-
             if ($validateUser->fails()) {
-                return response()->json([
-                    'status' => 0,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
+                $x = new ValidationExceptionApi($validateUser);
+                $msg = $x->getMessages();
+                return $this->response(0, ["messages" => array("Error"), 'errors' => $msg]);
             }
 
+      
             if (!Auth::attempt($request->only(['email', 'password']))) {
                 return $this->response(0, ["messages" => array(), 'errors' => ['Email & Password does not match with our record.']]);
             }
 
             $user = User::where('email', $request->email)->first();
-            return $this->response(1, ["messages" => ['User Logged In Successfully'], 'errors' => [], "tocken" => [$user->createToken("API")->plainTextToken]]);
+            $tocken = $user->createToken("API")->plainTextToken;
+            return $this->response(1, ["messages" => ['User Logged In Successfully'], 'errors' => [], "tocken" => $tocken]);
+        } catch (\Throwable $th) {
+            return $this->response(0, ["messages" => array(), 'errors' => [$th->getMessage()]]);
+        }
+    }
+
+    public function logout()
+    {
+        try {
+            auth()->user()->tokens()->delete();
+            return $this->response(1, ["messages" => ['Logout Successfully'], 'errors' => []]);
         } catch (\Throwable $th) {
             return $this->response(0, ["messages" => array(), 'errors' => [$th->getMessage()]]);
         }
@@ -130,8 +137,8 @@ class AuthController extends BaseController
             $user_profile = User::find($user->id);
             $user_profile->name = $request->name;
             $user_profile->address = $request->address;
-            $user_profile->pincode = $request->pin_code;
-            $user_profile->phone = $request->phone;
+            // $user_profile->pincode = $request->pin_code;
+            // $user_profile->phone = $request->phone;
             $img_path_name = null;
             if ($request->image != "") {
                 $isExists = File::exists($user->image);
