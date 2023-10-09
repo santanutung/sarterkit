@@ -170,25 +170,25 @@ class AuthController extends BaseController
     }
 
 
-    // Credit the referrer's account with a referral bonus
-    public function creditReferrer(User $referrer, $amount)
-    {
-        WalletTransaction::create([
-            'user_id' => $referrer->id,
-            'amount' => $amount,
-            'type' => 'credit',
-            'description' => 'Referral bonus',
-        ]);
-    }
+    // // Credit the referrer's account with a referral bonus
+    // public function creditReferrer(User $referrer, $amount)
+    // {
+    //     WalletTransaction::create([
+    //         'user_id' => $referrer->id,
+    //         'amount' => $amount,
+    //         'type' => 'credit',
+    //         'description' => 'Referral bonus',
+    //     ]);
+    // }
 
-    // Debit a user's account when using a referral bonus
-    public function debitUser(User $user, $amount)
-    {
-        WalletTransaction::create([
-            'user_id' => $user->id,
-            'amount' => $amount,
-            'type' => 'debit',
-            'description' => 'Referral bonus used',
-        ]);
-    }
+    // // Debit a user's account when using a referral bonus
+    // public function debitUser(User $user, $amount)
+    // {
+    //     WalletTransaction::create([
+    //         'user_id' => $user->id,
+    //         'amount' => $amount,
+    //         'type' => 'debit',
+    //         'description' => 'Referral bonus used',
+    //     ]);
+    // }
 }
