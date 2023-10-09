@@ -21,7 +21,7 @@ class AddonPackageController extends BaseController
         try {
             $countries = AddonPackage::get();
             if ($countries) {
-                // $countries = AddonPackageResource::collection($countries);
+                $countries = AddonPackageResource::collection($countries);
             }
             return $this->response(1, ["messages" => [], "errors" => [], "data" => $countries]);
         } catch (\Throwable $th) {
