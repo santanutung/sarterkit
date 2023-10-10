@@ -23,6 +23,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/email-otp-sand', [AuthController::class, 'sendResetOtpEmail']);
+Route::post('/otp-check', [AuthController::class, 'otp_check']);
+Route::post('/password-reset', [AuthController::class, 'ResetPassword']);
 Route::post('/email-check', [AuthController::class, 'email_check']);
 
 // Route::post('/login', [AuthController::class, 'loginEmailOrphone']);
@@ -37,6 +40,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/profile', [AuthController::class, 'profile_update']);
 
     Route::get('/countries', [CountryController::class, 'get_countries']);
+    Route::get('/most-visited-countries', [CountryController::class, 'most_visited_countries']);
     Route::get('/package-addon', [AddonPackageController::class, 'package_visa_addon']);
   
 

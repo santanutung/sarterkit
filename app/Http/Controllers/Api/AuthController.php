@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use App\Models\Role;
+use App\Models\ResetCodePassword;
 use App\Models\WalletTransaction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,6 +18,10 @@ use App\Http\Resources\Api\ProfileResource;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+
+use App\Mail\ResetPasswordOtp;
+use Illuminate\Support\Facades\Mail;
+
 
 class AuthController extends BaseController
 {
@@ -57,10 +62,15 @@ class AuthController extends BaseController
                 return $this->response(0, ["messages" => array("Error"), 'errors' => $msg]);
             }
 
-
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
+                'phone' => $request->phone,
+                'age' => $request->age,
+                'gender' => $request->gender,
+                'country_id' => $request->country_id,
+                'city' => $request->city,
+                'religion' => $request->religion,
                 'password' => Hash::make($request->password),
                 'role_id' => $request->role ?? 2,
                 // 'refer_id' => $refer_id,
@@ -91,7 +101,7 @@ class AuthController extends BaseController
                 return $this->response(0, ["messages" => array("Error"), 'errors' => $msg]);
             }
 
-      
+
             if (!Auth::attempt($request->only(['email', 'password']))) {
                 return $this->response(0, ["messages" => array(), 'errors' => ['Email & Password does not match with our record.']]);
             }
@@ -169,7 +179,123 @@ class AuthController extends BaseController
         }
     }
 
+    public function sendResetOtpEmail(Request $request)
+    {
 
+        try {
+
+
+            $validator = Validator::make(
+                $request->all(),
+                [
+
+                    'email' => 'required|email|exists:users',
+
+                ]
+            );
+            if ($validator->fails()) {
+                $x = new ValidationExceptionApi($validator);
+                $msg = $x->getMessages();
+                return $this->response(0, ["messages" => array(""), 'errors' => $msg]);
+            }
+
+
+            // Delete all old code that user send before.
+            ResetCodePassword::where('email', $request->email)->delete();
+
+            // Generate random code
+            // $data['email'] = $request->email;
+            // $data['code'] = mt_rand(100000, 999999);
+            $data['code'] = "111111";
+
+            // Create a new code
+            $ResetCodePassword =  new  ResetCodePassword;
+            $ResetCodePassword->email = $request->email;
+            $ResetCodePassword->code = $data['code'];
+            $ResetCodePassword->save();
+
+
+            // Send email to user
+            // Mail::to($request->email)->send(new ResetPasswordOtp($codeData->code));
+
+            return $this->response(1, ['messages' =>   ["Mail send successfulty"], "errors" => ""]);
+        } catch (\Throwable $th) {
+            return $this->response(0, ["messages" => array(), 'errors' => [$th->getMessage()]]);
+        }
+    }
+
+    public function otp_check(Request $request)
+    {
+
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'email' => 'required|email',
+                'otp' => 'required|string|exists:reset_code_passwords,code',
+
+            ]
+        );
+
+        if ($validator->fails()) {
+            $x = new ValidationExceptionApi($validator);
+            $msg = $x->getMessages();
+            return $this->response(0, ["messages" => array(""), 'errors' => $msg]);
+        }
+        // find the code
+        $passwordReset = ResetCodePassword::where('code', $request->otp)->Where('email',  $request->email)->first();
+        if ($passwordReset) {
+            return $this->response(1, ['messages' =>   ["Otp is valid"], "errors" => ""]);
+        } else {
+            return $this->response(0, ["messages" => array(), 'errors' => ["Otp is not match"]]);
+        }
+    }
+    public function ResetPassword(Request $request)
+    {
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'email' => 'required|email',
+                'otp' => 'required|string|exists:reset_code_passwords,code',
+                "password" => 'required',
+            ]
+        );
+
+        if ($validator->fails()) {
+            $x = new ValidationExceptionApi($validator);
+            $msg = $x->getMessages();
+            return $this->response(0, ["messages" => array(""), 'errors' => $msg]);
+        }
+
+        $passwordReset = ResetCodePassword::where('code', $request->otp)->Where('email',  $request->email)->first();
+        if ($passwordReset) {
+
+            $user = User::where('email', $request->email)->first();
+            $user->password = Hash::make($request->password);
+            $user->save();
+            if ($user->save()) {
+                $passwordReset->delete();
+                return $this->response(1, ['messages' =>   ["password reset successfully"], "errors" => ""]);
+            } else {
+                return $this->response(0, ["messages" => array(), 'errors' => ["someting went wrong"]]);
+            }
+
+            // return $this->response(1, ['messages' =>   ["Otp is valid"], "errors" => ""]);
+        } else {
+            return $this->response(0, ["messages" => array(), 'errors' => ["Otp is not match"]]);
+        }
+
+
+
+        // check if it does not expired: the time is one hour
+        // if ($passwordReset->created_at > now()->addHour()) {
+        //     $passwordReset->delete();
+        //     return $this->response(0, ["messages" => array(), 'errors' => ["Otp is expire"]]);
+        // }
+
+        return $this->response(1, ['messages' =>   ["Otp is valid"], "errors" => ""]);
+    }
     // // Credit the referrer's account with a referral bonus
     // public function creditReferrer(User $referrer, $amount)
     // {
