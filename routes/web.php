@@ -22,6 +22,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('migrate', function () {
+    $exitCode = \Artisan::call('migrate');
+	return     $exitCode;
+});
+
 
 Route::get('/test', function () {
     return setting('test1');

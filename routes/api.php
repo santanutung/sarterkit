@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CountryController;
+use App\Http\Controllers\Api\VisaController;
 use App\Http\Controllers\Api\AddonPackageController;
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/countries', [CountryController::class, 'get_countries']);
     Route::get('/most-visited-countries', [CountryController::class, 'most_visited_countries']);
+
+    Route::get('/visa-by-country/{country_id}', [VisaController::class, 'get_visa_by_country']);
+
     Route::get('/package-addon', [AddonPackageController::class, 'package_visa_addon']);
   
 

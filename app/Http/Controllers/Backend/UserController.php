@@ -61,6 +61,7 @@ class UserController extends Controller
             'role' => 'required',
             'password' => 'required|confirmed|string|min:8',
             'avatar' => 'required|image'
+            
 
         ]);
         $img_path_name = null;
