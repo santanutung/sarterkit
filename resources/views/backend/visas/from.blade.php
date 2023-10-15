@@ -19,11 +19,11 @@
                     </i>
                 </div>
 
-                <div>{{ isset($AddonPackage) ? 'Edit' : 'Create New' }} addon-package </div>
+                <div>{{ isset($visa) ? 'Edit' : 'Create New' }} visa </div>
 
             </div>
             <div class="page-title-actions">
-                <a href="{{ route('app.addon-packages.index') }}" class="btn-shadow btn btn-danger">
+                <a href="{{ route('app.visas.index') }}" class="btn-shadow btn btn-danger">
                     <span class="btn-icon-wrapper pr-2 opacity-7">
                         <i class="fas fa-arrow-circle-left fa-w-20"></i>
                     </span>
@@ -37,11 +37,11 @@
         <div class="col-12">
             <div class="table-responsive p-3">
                 <form method="post"
-                    action="{{ isset($AddonPackage) ? route('app.addon-packages.update', $AddonPackage->id) : route('app.addon-packages.store') }}"
+                    action="{{ isset($visa) ? route('app.visas.update', $visa->id) : route('app.visas.store') }}"
                     enctype="multipart/form-data">
                     @csrf
 
-                    @if (isset($AddonPackage))
+                    @if (isset($visa))
                         @method('PUT')
                     @endif
 
@@ -49,26 +49,45 @@
                         <div class="col-md-8">
                             <div class="main-card mb-3 card">
                                 <div class="card-body">
-                                  
                                     <div class="form-group">
                                         <label for="name">Name</label>
                                         <input id="name" type="text"
                                             class="form-control @error('name') is-invalid @enderror" name="name"
-                                            placeholder="Enter name"
-                                            value="{{ isset($AddonPackage) ? $AddonPackage->name : old('name') }}" autocomplete="name"
-                                            autofocus>
+                                            placeholder="Enter name" value="{{ isset($visa) ? $visa->name : old('name') }}"
+                                            autocomplete="name" autofocus>
                                         @error('name')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
                                     </div>
+
+
+                                    <div class="form-group">
+                                        <label for="country">Select Coutry</label>
+                                        <select id="country"
+                                            class="form-control select js-example-basic-single @error('country') is-invalid @enderror"
+                                            name="country">
+                                            @foreach ($countries as $key => $coutry)
+                                                <option
+                                                    @if (isset($visa)) {{ $visa->country_id == $coutry->id ? 'selected' : '' }} @endif
+                                                    value="{{ $coutry->id }}">{{ $coutry->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('country')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
                                     <div class="form-group">
                                         <label for="price">Price</label>
                                         <input id="price" type="number"
                                             class="form-control @error('price') is-invalid @enderror" name="price"
                                             placeholder="Enter price"
-                                            value="{{ isset($AddonPackage) ? $AddonPackage->price : old('price') }}" autocomplete="price"
+                                            value="{{ isset($visa) ? $visa->price : old('price') }}" autocomplete="price"
                                             autofocus>
                                         @error('price')
                                             <span class="invalid-feedback" role="alert">
@@ -76,11 +95,8 @@
                                             </span>
                                         @enderror
                                     </div>
-                                   
-
-
                                     <button type="submit" class="btn btn-primary">
-                                        @isset($AddonPackage)
+                                        @isset($visa)
                                             <i class="fas fa-arrow-circle-up"></i>
                                             <span>Update</span>
                                         @else
@@ -93,6 +109,24 @@
                                 <!-- /.card-body -->
                             </div>
 
+                        </div>
+                        <div class="col-md-4">
+                            <div class="main-card mb-3 card">
+                                <div class="card-body">
+                                    <div class="position-relative form-group">
+                                        <label for="avatar">image </label>
+                                        <input id="avatar" class="dropify" type='file'
+                                            class="form-control @error('image') is-invalid @enderror" name="image"
+                                            data-default-file="{{ isset($visa) ? ($visa->image ? url($visa->image) : '') : '' }}">
+
+                                        @error('image')
+                                            <span class="text-danger" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>

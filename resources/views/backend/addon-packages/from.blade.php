@@ -49,54 +49,34 @@
                         <div class="col-md-8">
                             <div class="main-card mb-3 card">
                                 <div class="card-body">
-
+                                  
                                     <div class="form-group">
                                         <label for="name">Name</label>
                                         <input id="name" type="text"
                                             class="form-control @error('name') is-invalid @enderror" name="name"
                                             placeholder="Enter name"
-                                            value="{{ isset($AddonPackage) ? $AddonPackage->name : old('name') }}"
-                                            autocomplete="name" autofocus>
+                                            value="{{ isset($AddonPackage) ? $AddonPackage->name : old('name') }}" autocomplete="name"
+                                            autofocus>
                                         @error('name')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
                                     </div>
-
-                                    <div class="form-group">
-                                        <label for="role">Select Coutry</label>
-                                        <select id="role"
-                                            class="form-control select js-example-basic-single @error('role') is-invalid @enderror"
-                                            name="role">
-                                            @foreach ($countries as $key => $coutry)
-                                                <option
-                                                    @if (isset($countries)) {{ $countries->id == $coutry->id ? 'selected' : '' }} @endif
-                                                    value="{{ $role->id }}">{{ $role->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('role')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-
                                     <div class="form-group">
                                         <label for="price">Price</label>
                                         <input id="price" type="number"
                                             class="form-control @error('price') is-invalid @enderror" name="price"
                                             placeholder="Enter price"
-                                            value="{{ isset($AddonPackage) ? $AddonPackage->price : old('price') }}"
-                                            autocomplete="price" autofocus>
+                                            value="{{ isset($AddonPackage) ? $AddonPackage->price : old('price') }}" autocomplete="price"
+                                            autofocus>
                                         @error('price')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
                                     </div>
-
+                                   
 
 
                                     <button type="submit" class="btn btn-primary">

@@ -24,7 +24,7 @@ class VisaController extends Controller
     public function index()
     {
 
-        $addon_packages = AddonPackage::all();
+        $addon_packages = Visa::all();
         return view('backend.visas.index', ['addon_packages' => $addon_packages]);
     }
 
@@ -38,7 +38,6 @@ class VisaController extends Controller
 
         // Gate::authorize('app.users.create');
         $countries = Country::all();
-        // countries
         return view('backend.visas.from', ['countries' => $countries]);
     }
 
@@ -51,23 +50,44 @@ class VisaController extends Controller
     public function store(Request $request)
     {
 
-
+   
         // Gate::authorize('app.users.create');
         $this->validate($request, [
             'name' => 'required |max:190|string',
+            'country' => 'required',
             'price' => 'required',
+            'image' => 'required|image'
         ]);
 
+        $visa = new Visa;
+        $visa->name =  $request->name;
+        $visa->country_id =  $request->country;
+        $visa->price =  $request->price;
 
-        AddonPackage::create([
-            'name' => $request->name,
-            'price' => $request->price,
-        ]);
+        $img_path_name = null;
+        $avatar_image = $request->file('image');
+        if ($avatar_image) {
+            $isExists = File::exists($visa->image);
+            if ($isExists) {
+                // unlink($country->image);
+            }
+            // $original_name = $avatar_image->getClientOriginalName();
+            $name_generated =   time();
+            $extension = strtolower($avatar_image->getClientOriginalExtension());
+            // $image_name =   Str::slug($request->name)."-". $name_generated . "." . $extension;
+            $image_name =   Str::slug($request->name) . "-" . $name_generated . "." . $extension;
+            $upload_location = 'uploads/visas/';
+            $img_path_name = $upload_location . $image_name;
+            $avatar_image->move(public_path($upload_location), $image_name);
+            $visa->image = $img_path_name;
+        }
+
+        $visa->save();
         // upload images
 
 
-        notify()->success('AddonPackage Successfully Added.', 'Added');
-        return redirect()->route('app.addon-packages.index');
+        notify()->success('Visa Successfully Added.', 'Added');
+        return redirect()->route('app.visas.index');
 
         //
     }
@@ -91,14 +111,10 @@ class VisaController extends Controller
      * @param  \App\Models\AddonPackage  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(AddonPackage $addon_package)
+    public function edit(Visa $visa)
     {
-
-        return view('backend.visas.from', ['AddonPackage' => $addon_package]);
-
-
-
-
+        $countries = Country::all();
+        return view('backend.visas.from', ['visa' => $visa,'countries'=>$countries]);
         //
     }
 
@@ -109,27 +125,49 @@ class VisaController extends Controller
      * @param  \App\Models\AddonPackage  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AddonPackage $addon_package)
+    public function update(Request $request, Visa $visa)
     {
 
         // Gate::authorize('app.users.index');
 
         $this->validate($request, [
             'name' => 'required |max:190|string',
+            'country' => 'required',
             'price' => 'required',
+            'image' => 'image'
         ]);
 
 
 
-        $addon_package->name = $request->name;
-        $addon_package->price = $request->price;
+    
+      
+        $visa->name =  $request->name;
+        $visa->country_id =  $request->country;
+        $visa->price =  $request->price;
+
+        $img_path_name = null;
+        $avatar_image = $request->file('image');
+        if ($avatar_image) {
+            $isExists = File::exists($visa->image);
+            if ($isExists) {
+                // unlink($country->image);
+            }
+            // $original_name = $avatar_image->getClientOriginalName();
+            $name_generated =   time();
+            $extension = strtolower($avatar_image->getClientOriginalExtension());
+            // $image_name =   Str::slug($request->name)."-". $name_generated . "." . $extension;
+            $image_name =   Str::slug($request->name) . "-" . $name_generated . "." . $extension;
+            $upload_location = 'uploads/visas/';
+            $img_path_name = $upload_location . $image_name;
+            $avatar_image->move(public_path($upload_location), $image_name);
+            $visa->image = $img_path_name;
+        }
+
+        $visa->save();
 
 
-        // $country->status = $request->filled('status');
-        $addon_package->save();
 
-
-        notify()->success('Addon package Updated Added.', 'Added');
+        notify()->success('visa Updated.', '');
         // return redirect()->route('app.users.index');
         return back();
         //

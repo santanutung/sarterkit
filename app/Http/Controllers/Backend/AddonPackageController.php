@@ -94,10 +94,6 @@ class AddonPackageController extends Controller
     {
 
         return view('backend.addon-packages.from', ['AddonPackage' => $addon_package]);
-
-
-
-
         //
     }
 
@@ -128,7 +124,7 @@ class AddonPackageController extends Controller
         $addon_package->save();
 
 
-        notify()->success('Addon package Updated Added.', 'Added');
+        notify()->success('Addon package Updated.', '');
         // return redirect()->route('app.users.index');
         return back();
         //
@@ -145,7 +141,7 @@ class AddonPackageController extends Controller
         // Gate::authorize('app.users.destroy');
 
         $addon_package->delete();
-        notify()->success("AddonPackage Successfully Deleted", "Deleted");
+        notify()->success("Addon Package Successfully Deleted", "");
         return back();
 
         //
