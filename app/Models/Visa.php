@@ -12,4 +12,5 @@ class Visa extends Model
     {
         return $this->belongsTo(Country::class, 'country_id', 'id');
     }
+   
 }

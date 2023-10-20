@@ -21,10 +21,17 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('migrate', function () {
     $exitCode = \Artisan::call('migrate');
 	return     $exitCode;
+});
+Route::get('/test', function () {
+    return setting('test1');
+});
+
+Route::get('clear', function () {
+    $exitCode = \Artisan::call('optimize:clear');
+    return     $exitCode;
 });
 
 

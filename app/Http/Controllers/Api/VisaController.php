@@ -18,6 +18,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use App\Http\Resources\Api\VisaResource;
+use App\Http\Resources\Api\VisaDetailsResource;
 
 
 class VisaController extends BaseController
@@ -31,6 +32,33 @@ class VisaController extends BaseController
                 $visas = VisaResource::collection($visas);
             }
             return $this->response(1, ["messages" => [], "errors" => [], "data" => $visas]);
+        } catch (\Throwable $th) {
+            return $this->response(0, ["messages" => array(), 'errors' => [$th->getMessage()]]);
+        }
+    }
+    public function get_schengen_visa()
+    {
+        try {
+            $visas = Visa::get();
+            if ($visas) {
+                $visas = VisaResource::collection($visas);
+            }
+            return $this->response(1, ["messages" => [], "errors" => [], "data" => $visas]);
+        } catch (\Throwable $th) {
+            return $this->response(0, ["messages" => array(), 'errors' => [$th->getMessage()]]);
+        }
+    }
+    public function get_visa_by_id($id)
+    {
+        try {
+            $visas = Visa::where('id',$id)->first();
+            if ($visas) {
+                $visas = new VisaDetailsResource($visas);
+                return $this->response(1, ["messages" => [], "errors" => [], "data" => $visas]);
+            }else{
+                return $this->response(0, ["messages" => array(), 'errors' => ['Visa not found.']]);
+            }
+         
         } catch (\Throwable $th) {
             return $this->response(0, ["messages" => array(), 'errors' => [$th->getMessage()]]);
         }

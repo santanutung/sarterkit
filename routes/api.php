@@ -36,16 +36,29 @@ Route::get('/countries', [CountryController::class, 'get_countries']);
 Route::middleware(['auth:sanctum'])->group(function () {
     // These routes are now protected by the 'auth:sanctum' middleware
 
-    // profile routes
+    // profile +++
     Route::get('/profile', [AuthController::class, 'profile_get']);
     Route::post('/profile', [AuthController::class, 'profile_update']);
+    //  profile ---
 
-
-    Route::get('/most-visited-countries', [CountryController::class, 'most_visited_countries']);
-
-    Route::get('/visa-by-country/{country_id}', [VisaController::class, 'get_visa_by_country']);
-
+    // package-addon +++
     Route::get('/package-addon', [AddonPackageController::class, 'package_visa_addon']);
-  
+    // package-addon ---
+
+
+    //  Country +++
+    Route::get('/most-visited-countries', [CountryController::class, 'most_visited_countries']);
+    Route::get('/get-schengen-visa', [CountryController::class, 'get_schengen_visa']);
+    //  Country ---
+
+    //    Visa  +++
+    Route::get('/select-visa-by-country/{country_id}', [VisaController::class, 'get_visa_by_country']);
+    Route::get('/select-visa-with-pakege/{country_id}', [VisaController::class, 'get_visa_by_country']);
+    Route::get('/get-visa-details/{visa_id}', [VisaController::class, 'get_visa_by_id']);
+    //    Visa   ---
+
+
+    Route::get('/select-visa-by-country/{country_id}', [VisaController::class, 'get_visa_by_country']);
+
 
 });

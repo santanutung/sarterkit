@@ -3,9 +3,9 @@
 namespace App\Http\Resources\Api;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Category;
+use App\Models\AddonPackage;
 
-class VisaResource extends JsonResource
+class VisaDetailsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,6 +15,10 @@ class VisaResource extends JsonResource
      */
     public function toArray($request)
     {
+        $AddonPackages = AddonPackage::get();
+        if ($AddonPackages) {
+            $AddonPackages = AddonPackageResource::collection($AddonPackages);
+        }
 
         return [
             "id" => $this->id,
@@ -23,7 +27,7 @@ class VisaResource extends JsonResource
             "price" => $this->price,
             "country" => $this->country->name,
             "image" => "uploads/visas/" . $this->image,
-           
+            "addon-packages" => $AddonPackages,
         ];
     }
 }
