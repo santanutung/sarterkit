@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CountryController;
 use App\Http\Controllers\Api\VisaController;
 use App\Http\Controllers\Api\AddonPackageController;
+use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\WishlistController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -53,12 +55,23 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //    Visa  +++
     Route::get('/select-visa-by-country/{country_id}', [VisaController::class, 'get_visa_by_country']);
-    Route::get('/select-visa-with-pakege/{country_id}', [VisaController::class, 'get_visa_by_country']);
+    // Route::get('/select-visa-with-pakege/{country_id}', [VisaController::class, 'get_visa_by_country']);
     Route::get('/get-visa-details/{visa_id}', [VisaController::class, 'get_visa_by_id']);
     //    Visa   ---
 
 
-    Route::get('/select-visa-by-country/{country_id}', [VisaController::class, 'get_visa_by_country']);
-
-
+    //    Visa  +++
+    Route::prefix('cart')->group(function () {
+        Route::post('add-to-cart', [CartController::class, 'addToCart']);
+        // Route::put('update', [CartController::class, 'updateCart']);
+        Route::get('remove-visa/{productId}', [CartController::class, 'removeFromCart']);
+        Route::get('/', [CartController::class, 'carts']);
+    });
+    Route::prefix('wishlist')->group(function () {
+        Route::post('add-to-wishlist', [WishlistController::class, 'addToWishlist']);
+        // Route::put('update', [CartController::class, 'updateCart']);
+        Route::get('remove-visa/{productId}', [WishlistController::class, 'removeFromWishlist']);
+        Route::get('/', [WishlistController::class, 'wishlists']);
+    });
+    //    Visa   ---
 });
