@@ -102,17 +102,25 @@ class CartController extends BaseController
 
             $total_price += $item['price'];
 
-            $adddon_packages = AddonPackage::whereIn('id', json_decode($cart->addon_packages))->get();
-            foreach ($adddon_packages as $adddon_package) {
-                $total_price += $adddon_package->price;
-                $item['adddon_packages'][] = [
-                    'id' => $adddon_package->id,
-                    'name' => $adddon_package->name,
-                    'price' => $adddon_package->price,
-                    'created_at' => $adddon_package->created_at,
-                    'updated_at' => $adddon_package->updated_at,
-                ];
+    
+            if ($cart->addon_packages) {
+                $addon_package_ids = json_decode($cart->addon_packages);
+                if (is_array($addon_package_ids)) {
+            
+                    $adddon_packages = AddonPackage::whereIn('id', $addon_package_ids)->get();
+                    foreach ($adddon_packages as $key2 => $adddon_package) {
+                        $total_price += $adddon_package->price;
+                        $item['adddon_packages'][] = [
+                            'id' => $adddon_package->id,
+                            'name' => $adddon_package->name,
+                            'price' => $adddon_package->price,
+                            'created_at' => $adddon_package->created_at,
+                            'updated_at' => $adddon_package->updated_at,
+                        ];
+                    }
+                }
             }
+
          
             $response[] = $item;
         }

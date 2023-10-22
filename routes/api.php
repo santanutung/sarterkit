@@ -60,7 +60,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //    Visa   ---
 
 
-    //    Visa  +++
+    //    cart and wishlist  +++
     Route::prefix('cart')->group(function () {
         Route::post('add-to-cart', [CartController::class, 'addToCart']);
         // Route::put('update', [CartController::class, 'updateCart']);
@@ -73,5 +73,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('remove-visa/{productId}', [WishlistController::class, 'removeFromWishlist']);
         Route::get('/', [WishlistController::class, 'wishlists']);
     });
-    //    Visa   ---
+    //    wishlist   ---
+
+    Route::get('/apply-form', [AddonPackageController::class, 'apply_form']);
 });
