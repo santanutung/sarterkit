@@ -20,6 +20,7 @@ class AddonPackageController extends BaseController
     {
         try {
             $countries = AddonPackage::get();
+            
             if ($countries) {
                 $countries = AddonPackageResource::collection($countries);
             }

@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\VisaController;
 use App\Http\Controllers\Api\AddonPackageController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\WishlistController;
+use App\Http\Controllers\Api\OrderController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -76,4 +77,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //    wishlist   ---
 
     Route::get('/apply-form', [AddonPackageController::class, 'apply_form']);
+    Route::post('/create-order', [OrderController::class, 'create_order']);
+    Route::get('/order-history', [OrderController::class, 'order_history']);
 });

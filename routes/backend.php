@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\CountryController;
 use App\Http\Controllers\Backend\AddonPackageController;
 use App\Http\Controllers\Backend\VisaController;
+use App\Http\Controllers\Backend\OrderController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\DashbordController;
@@ -42,6 +43,9 @@ Route::resource('visas', VisaController::class);
 Route::resource('pages', PageController::class);
 Route::resource('menus', MenuController::class)->except(['show']);
 
+Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+Route::get('orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+Route::post('update-status', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
 
 
 //  profile

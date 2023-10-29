@@ -22,7 +22,7 @@ class VisaResource extends JsonResource
             "sku" => $this->sku,
             "price" => $this->price,
             "country" => $this->country->name,
-            "image" => "uploads/visas/" . $this->image,
+            "image" =>$this->image,
            
         ];
     }

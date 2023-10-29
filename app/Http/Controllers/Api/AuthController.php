@@ -108,7 +108,7 @@ class AuthController extends BaseController
 
             $user = User::where('email', $request->email)->first();
             $tocken = $user->createToken("API")->plainTextToken;
-            return $this->response(1, ["messages" => ['User Logged In Successfully'], 'errors' => [], "tocken" => $tocken]);
+            return $this->response(1, ["messages" => ['You Logged In Successfully'], 'errors' => [], "tocken" => $tocken]);
         } catch (\Throwable $th) {
             return $this->response(0, ["messages" => array(), 'errors' => [$th->getMessage()]]);
         }

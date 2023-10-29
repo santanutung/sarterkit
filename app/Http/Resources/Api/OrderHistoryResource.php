@@ -5,7 +5,7 @@ namespace App\Http\Resources\Api;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\Category;
 
-class CountryResource extends JsonResource
+class OrderHistoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,9 +17,12 @@ class CountryResource extends JsonResource
     {
 
         return [
+ 
             "id" => $this->id,
-            "name" => $this->name,
-            "image" => $this->image,
+            "number" => $this->id,
+            "count" => $this->orderItems->count(),
+            "status" => $this->status,
+            "date" => convertYmdToMdy($this->created_at),
         ];
     }
 }
