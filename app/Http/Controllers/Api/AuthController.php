@@ -82,9 +82,6 @@ class AuthController extends BaseController
             return $this->response(0, ["messages" => array(), 'errors' => [$th->getMessage()]]);
         }
     }
-
-
-
     public function login(Request $request)
     {
         try {
@@ -123,7 +120,6 @@ class AuthController extends BaseController
             return $this->response(0, ["messages" => array(), 'errors' => [$th->getMessage()]]);
         }
     }
-
 
     public function profile_update(Request $request)
     {
@@ -178,13 +174,40 @@ class AuthController extends BaseController
             return $this->response(0, ["messages" => array("Error"), "errors" => array("Something went wrong try again latter.")]);
         }
     }
+    public function terms_condition()
+    {
+
+        $terms_condition = [
+            "title" => "Terms & Condition",
+            "description" => "<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p> <br> <p>Lorem Ipsum is simply dummy text of  </p>  <br><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>"
+        ];
+        return $this->response(1, ["messages" => array(""), 'data' =>   $terms_condition]);
+    }
+    public function privacy_policy()
+    {
+
+        $privacy_policy = [
+            "title" => "Privacy policy",
+            "description" => "<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p> <br> <p>Lorem Ipsum is simply dummy text of  </p>  <br><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </p>"
+        ];
+        return $this->response(1, ["messages" => array(""), 'data' =>   $privacy_policy]);
+    }
+    public function help_support()
+    {
+
+        $help_support = [
+       
+            "email" => "test@gmail.com",
+            "phone"=>"1234567890",
+            "address"=>"10  Khoosravi Estate S.k.bole Raod Opp, Mumbai,Delhi,400028,India"
+
+        ];
+        return $this->response(1, ["messages" => array(""), 'data' =>   $help_support]);
+    }
 
     public function sendResetOtpEmail(Request $request)
     {
-
         try {
-
-
             $validator = Validator::make(
                 $request->all(),
                 [

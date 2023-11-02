@@ -34,6 +34,18 @@ class CountryController extends BaseController
             return $this->response(0, ["messages" => array(), 'errors' => [$th->getMessage()]]);
         }
     }
+    public function country_search(Request $request)
+    {
+        try {
+            $countries = Country::where('name','LIKE',"%{$request->search}%")->get();
+            if ($countries) {
+                $countries = CountryResource::collection($countries);
+            }
+            return $this->response(1, ["messages" => [], "errors" => [], "data" => $countries]);
+        } catch (\Throwable $th) {
+            return $this->response(0, ["messages" => array(), 'errors' => [$th->getMessage()]]);
+        }
+    }
     public function most_visited_countries(Request $request)
     {
         try {

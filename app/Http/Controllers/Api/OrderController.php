@@ -91,12 +91,17 @@ class OrderController extends BaseController
             }
     
             $order->total_amount = $total_price;
-            $order->save();
+            if($order->save()){
+                return $this->response(1, ["messages" => ['order created Successfully'], 'data' => ['order_id'=>$order->id]]);
+            }else{
+                return $this->response(0, ["messages" => array(), "errors" => array("Something went wrong try again latter.")]);
+            }
 
-            return $this->response(1, ["messages" => ['order created Successfully'], 'errors' => []]);
+           
         } catch (\Throwable $th) {
             return $this->response(0, ["messages" => array(), 'errors' => [$th->getMessage()]]);
         }
+        
 
         // $request->
     
@@ -107,7 +112,9 @@ class OrderController extends BaseController
         auth()->user()->id;
         $orders=Order::where('user_id',auth()->user()->id)->where('user_id',auth()->user()->id)->get();
         $orders = OrderHistoryResource::collection($orders);
-        return    $orders;
+
+        return $this->response(1, ["messages" => [], 'data' => ['order'=>$orders]]);
+  
         // $request->
     
     }

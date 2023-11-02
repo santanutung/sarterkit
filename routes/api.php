@@ -32,6 +32,7 @@ Route::post('/otp-check', [AuthController::class, 'otp_check']);
 Route::post('/password-reset', [AuthController::class, 'ResetPassword']);
 Route::post('/email-check', [AuthController::class, 'email_check']);
 Route::get('/countries', [CountryController::class, 'get_countries']);
+Route::get('/country-search', [CountryController::class, 'country_search']);
 // Route::post('/login', [AuthController::class, 'loginEmailOrphone']);
 // Route::post('/register', [AuthController::class, 'register_email_phone']);
 
@@ -41,6 +42,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // profile +++
     Route::get('/profile', [AuthController::class, 'profile_get']);
+    Route::get('/terms-condition', [AuthController::class, 'terms_condition']);
+    Route::get('/privacy-policy', [AuthController::class, 'privacy_policy']);
+    Route::get('/help-support', [AuthController::class, 'help_support']);
+
     Route::post('/profile', [AuthController::class, 'profile_update']);
     //  profile ---
 
