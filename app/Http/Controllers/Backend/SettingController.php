@@ -28,7 +28,7 @@ class SettingController extends Controller
         Setting::updateOrCreate(['name' => 'site_address'], ['value' => $request->get('site_address')]);
         // Setting::updateSettings($request->validated());
         // // Update .env file
-        Artisan::call("env:set APP_NAME='" . $request->site_title . "'");
+        // Artisan::call("env:set APP_NAME='" . $request->site_title . "'");
         notify()->success('Settings Successfully Updated.', 'Success');
         return back();
     }
